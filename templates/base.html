@@ -1,0 +1,25 @@
+<!-- DFB38_05_blog_app/templates/base.html -->
+
+{% load static %}
+
+<html>
+  <head>
+    <title>Django BLOG project from Chap05 </title>
+    <link href="{% static 'css/base.css' %}" rel="stylesheet">
+  </head>
+
+  <body>
+    <header>
+      <h1><a href="{% url 'home' %}"> Django blog </a><h1>
+      <h1><a href="admin/"> Admin </a></h1>
+    </header>
+
+    <div:
+      <!-- NOTE that 'content' is just a symbol, not a keyword -->
+      {% block content %}
+      {% endblock content %}
+    </div>
+  </body>
+</html>
+
+<!-- ### end ### -->
