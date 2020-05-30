@@ -28,6 +28,8 @@ class BlogPost(models.Model):
 		This gets rid of the error from Django:
 		  No URL to redirect to. Either provide a url or define a
 		  get_absolute_url method on the Model.
+		  Because our <form> does not specify which URL to go to
+		  after a successful POST.
 		"""
 		# NOTE that post_detail needs one arg, the PK (primary key)
 		# as an int.
