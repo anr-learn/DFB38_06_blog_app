@@ -1,7 +1,9 @@
-# DFB38_05_blog_app/blog05_app/views.py
+# DFB38_06_blog_app/blog05_app/views.py
 
 #from django.shortcuts import render
 from django.views.generic import ListView, DetailView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.urls import reverse_lazy
 
 from .models import BlogPost
 
@@ -35,6 +37,32 @@ class BlogDetailView(DetailView):
 	context_object_name = "blog_post_detail_object"
 
 
+class BlogCreateView(CreateView):
+	""" Create a new blog post.
+	"""
+
+	model = BlogPost
+	template_name = "post_new.html"
+	fields = ["postTitle", "postAuthor", "postBody"]
+
+	###context_object_name = "blog_post_create_object"
+
+
+class BlogUpdateView(UpdateView):
+	""" Update an existing blog post """
+	model = BlogPost
+	template_name = "post_edit.html"
+	fields = ["postTitle", "postBody"]
+	###context_object_name = "blog_post_edit_object"
+
+
+class BlogDeleteView(DeleteView):
+	""" Delete a blog post """
+
+	model = BlogPost
+	template_name = "post_delete.html"
+	success_url = reverse_lazy("home")
+	###context_object_name = "blog_post_delete_object"
 
 
 ### end ###

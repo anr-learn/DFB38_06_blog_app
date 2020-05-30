@@ -1,7 +1,7 @@
 # DFB38_06_blog_app/blog05_app/models.py
 
 from django.db import models
-
+from django.urls import reverse
 
 class BlogPost(models.Model):
 	""" A post to the blog """
@@ -22,6 +22,17 @@ class BlogPost(models.Model):
 		return ("%s[%s]" % 
 			(self.__class__.__name__,
 			 self.postTitle))
+
+	def get_absolute_url(self):
+		""" 
+		This gets rid of the error from Django:
+		  No URL to redirect to. Either provide a url or define a
+		  get_absolute_url method on the Model.
+		"""
+		# NOTE that post_detail needs one arg, the PK (primary key)
+		# as an int.
+		return reverse("post_detail", args=[str(self.id)])
+
 
 
 ### end ###
