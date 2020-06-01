@@ -6,6 +6,12 @@ from django.urls import reverse
 
 from .models import BlogPost
 
+# Disables all print() 
+if False:
+	print("!!!! ALL PRINTING IS DISABLED !!!!    See: tests.py line 10")
+	def print(*args, **kw): pass
+
+
 
 class BlogTests(TestCase):
 	""" """
@@ -74,9 +80,70 @@ class BlogTests(TestCase):
 				"postBody": newBody,
 				"postAuthor": newAuthor,
 			})
-		print(f"@@@ @@@ {dir(response)}")
-		print(f"@@@ @@@ template name: {response.template_name}")
+		#print(f"@@@ @@@ {type(response)}")
+		#print(f"@@@ @@@ {dir(response)}")
+		#print(f"@@@ @@@ template name: {response.template_name}")
 		self.assertEqual(response.status_code, 200)
 		self.assertContains(response, newTitle)
+		self.assertTemplateUsed(response, "post_new.html")
+
+
+	def test_post_update_view(self):
+		""" test /post/NNN/edit/ 
+		"""
+
+		objId = "1" #  id = '1'
+
+		# url is str: "/post/1/edit"
+		url = reverse("post_edit", args=(objId,))
+		#print(f"@@ {url=}")
+
+
+		newTitle = "TITLE-FROM-test_post_update_view"
+		newBody = "BODY~FROM~test_post_update_view"
+		argsToPost = {
+				"postTitle": newTitle,
+				"postBody": newBody,
+			}
+
+		response = self.client.post(url, argsToPost)
+		self.assertEqual(response.status_code, 302) # 302 == 'Found'
+
+		###self.assertTemplateUsed(response, "post_.......")
+		self.assertFalse(hasattr(response, "template_name"))
+		# type:  django.http.response.HttpResponseRedirect
+		#print(f"@@@ @@@ {type(response)}")
+		#print(f"@@@ @@@ {dir(response)}")
+		#print(f"@@@ @@@ {str(response)}")
+		# The response redirects to the 'show this blog post' URL,
+		# namely "/post/1"  -- aka the 'detail' view
+		#print(f"@@@ @@@ {response.url}")
+		self.assertEqual(response.url, f"/post/{objId}/")
+
+
+	def test_post_delete_view(self):
+		""" test /post/NNN/delete/ 
+		"""
+
+		objId = "1" #  id = '1'
+
+		# url is str: "/post/1/edit"
+		url = reverse("post_delete", args=(objId,))
+		#print(f"@@ {url=}")
+
+		response = self.client.post(url)
+		self.assertEqual(response.status_code, 302) # 302 == 'Found'
+
+		###self.assertTemplateUsed(response, "post_.......")
+		self.assertFalse(hasattr(response, "template_name"))
+		# type:  django.http.response.HttpResponseRedirect
+		#print(f"@@@ @@@ {type(response)}")
+		#print(f"@@@ @@@ {dir(response)}")
+		#print(f"@@@ @@@ {str(response)}")
+		# The response redirects to the 'home' URL, namely "/"
+		#print(f"@@@ @@@ {response.url}")
+		self.assertEqual(response.url, f"/")
+
+
 
 ### end ###
