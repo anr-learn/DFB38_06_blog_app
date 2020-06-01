@@ -28,6 +28,9 @@ class BlogTests(TestCase):
 		post = BlogPost(postTitle=title)
 		self.assertEqual(str(post), expStg)
 
+	def test_get_absolute_url(self):
+		self.assertEqual(self.post.get_absolute_url(), "/post/1/")
+
 	def test_post_content(self):
 		""" """
 		self.assertEqual(f"{self.post.postTitle}", "My Blog Title")
@@ -60,5 +63,20 @@ class BlogTests(TestCase):
 		###self.assertTemplateUsed(response, None)
 		self.assertFalse(hasattr(response, "template_name"))
 
+
+	def test_post_create_view(self):
+		newTitle = "the new TITLE"
+		newBody = "THE BODY!"
+		newAuthor = "THE_AUTHOR"
+		response = self.client.post(reverse("post_new"),
+			{
+				"postTitle": newTitle,
+				"postBody": newBody,
+				"postAuthor": newAuthor,
+			})
+		print(f"@@@ @@@ {dir(response)}")
+		print(f"@@@ @@@ template name: {response.template_name}")
+		self.assertEqual(response.status_code, 200)
+		self.assertContains(response, newTitle)
 
 ### end ###
