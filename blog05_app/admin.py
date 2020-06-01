@@ -1,4 +1,4 @@
-# DFB38_05_blog_app/blog05_app/admin.py
+# DFB38_06_blog_app/blog05_app/admin.py
 
 from django.contrib import admin
 
