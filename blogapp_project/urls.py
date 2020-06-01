@@ -1,4 +1,4 @@
-# DFB38_05_blog_app/blogapp_project/urls.py
+# DFB38_06_blog_app/blogapp_project/urls.py
 
 """blogapp_project URL Configuration
 
