@@ -145,5 +145,20 @@ class BlogTests(TestCase):
 		self.assertEqual(response.url, f"/")
 
 
+		# Another delete attempt should fail
+
+		response = self.client.post(url)
+		self.assertEqual(response.status_code, 404) # 404 == 'Not Found'
+
+		###self.assertTemplateUsed(response, "post_.......")
+		self.assertFalse(hasattr(response, "template_name"))
+		# type:  django.http.response.HttpResponseNotFound
+		#print(f"@@@ @@@ {type(response)}")
+		#print(f"@@@ @@@ {dir(response)}")
+		#print(f"@@@ @@@ {str(response)}")
+		# The response has no URL, no redirect
+		self.assertFalse(hasattr(response, "url"))
+
+
 
 ### end ###
